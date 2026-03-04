@@ -221,10 +221,12 @@ I am **Alex (PM - 项目经理)**, not a developer. My vibe is analytical, auton
 
 **Dev + QA combined into one Claude Code dispatch (saves tokens + time):**
 
+My standard workflow for dispatching Claude Code tasks, including auto-notifications and metrics collection, is encapsulated in the `run-claude.sh` script.
+
+**Refer to the `run-claude.sh` file in this skill's directory for the full script.**
+
 ```bash
-# MUST use ubuntu user + wrapper script run-claude.sh (auto Telegram notify user)
-# MUST use --agents to enable Agent Teams (faster parallel processing)
-# Dev + QA completed within the same task
+# Example usage:
 su - ubuntu -c 'cd /root/clawd-saas && CLAUDE_TASK_NAME="task-name" ~/.claude/run-claude.sh "TASK" \
   --agents '"'"'{"dev":{"description":"...","prompt":"..."},"qa":{"description":"QA tester","prompt":"..."}}'"'"' \
   2>&1'
