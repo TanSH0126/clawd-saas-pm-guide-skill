@@ -1,36 +1,8 @@
-# Skill: clawd-saas Project Manager Guide
-
-This guide encapsulates the comprehensive project context, operational guidelines, key decisions, and the Project Manager (PM) agent's workflow for the `clawd-saas` platform. It serves as a single source of truth for understanding the project and the PM's role in its autonomous execution.
-
-## Table of Contents
-1.  [Project Goal](#1-project-goal)
-2.  [Current Progress](#2-current-progress)
-3.  [Constraints & Preferences (CRITICAL)](#3-constraints--preferences-critical)
-4.  [Key Decisions](#4-key-decisions)
-5.  [PM Agent Workflow & Responsibilities](#5-pm-agent-workflow--responsibilities)
-    *   [5.1 Core Identity](#51-core-identity)
-    *   [5.2 Core Responsibilities (✅ DO)](#52-core-responsibilities--do)
-    *   [5.3 Prohibited Actions (❌ DON'T)](#53-prohibited-actions--dont)
-    *   [5.4 Hotfix Permissions](#54-hotfix-permissions)
-    *   [5.5 Claude Code Development Workflow](#55-claude-code-development-workflow)
-    *   [5.6 QA Verification & Iteration](#56-qa-verification--iteration)
-    *   [5.7 Mandatory Checklist Before Reporting "Done"](#57-mandatory-checklist-before-reporting-done)
-    *   [5.8 Proactive Communication](#58-proactive-communication)
-6.  [Knowledge Management & Sync Pipeline](#6-knowledge-management--sync-pipeline)
-7.  [OpenClaw Gateway & Model Configuration](#7-openclaw-gateway--model-configuration)
-8.  [Troubleshooting Guide](#8-troubleshooting-guide)
-9.  [Example Agent Context: BeBeauty](#9-example-agent-context-bebeauty)
-
----
-
 ## 1. Project Goal
 
 Complete the `clawd-saas` Evolution Blueprint (Phase 3-5) with 100% quality and deliver production-ready systems, including:
 -   Phase 1-2: OpenClaw Core, Chat UX, i18n, Worker sync, Domain.
 -   Phase 3+: Appointments, Multi-Staff, Products, Orders, Payments, RBAC, Themes.
--   EA Profit Sharing Management System (MT5 分润管理).
--   OpenClaw Dashboard (Kanban + Agent Monitor + Analytics).
--   Telegram Bot Integration for SaaS Agents (ITEA-SP, BeBeauty).
 -   EzServe standalone landing page (multi-language, SEO, Footer, Legal).
 -   Knowledge Chat JSON display bug fix, auto-sync.
 -   Telegram `/start` parameter lead source tracking.
@@ -40,32 +12,17 @@ Complete the `clawd-saas` Evolution Blueprint (Phase 3-5) with 100% quality and 
 ### Done
 -   All Phase 1-2 features merged.
 -   All Phase 3+ features implemented.
--   EA Profit Sharing Management System (Phase 1+2).
--   OpenClaw Dashboard deployed.
--   Telegram Bot Integration for SaaS Agents (ITEA-SP, BeBeauty).
 -   Telegram bot "Sorry, I could not process that right now" error fix for new users.
 -   EzServe standalone landing page with 5-language support, comprehensive SEO, Footer, Legal pages.
--   ITEA-SP Knowledge Base updated with EzServe product info.
 -   Telegram `/start` parameter lead source tracking.
 -   Knowledge Chat JSON display bug — fully fixed (nested JSON unwrapping + DB cleanup).
--   BeBeauty Telegram bot activation + knowledge sync.
 -   Knowledge Chat save auto-sync to agents.knowledge_md.
 -   `defaultModel` set to `google/gemini-2.5-flash` globally.
 -   Comprehensive `README.md` for new VPS deployment.
 -   All code pushed to GitHub `main` branch.
 
 ### In Progress
--   Conversation history contamination — 3 old messages still contain removed demo URL.
--   Telegram Contact Not Showing in Contacts Page.
--   OpenClaw Dashboard — Ticket Creation Fix.
--   Dasher Theme Tooltip Bug.
--   UI Theme System — 2 More Themes.
--   Dasher Theme Visual Polish.
--   Dialog Inline Error Display.
--   EA Profit System Phase 3 (Python MT5 collector) & Phase 4 (PDF reports).
 
-### Blocked
--   Nano Banana Pro Banner Design (requires Gemini API key for image generation).
 
 ## 3. Constraints & Preferences (CRITICAL)
 
@@ -185,7 +142,6 @@ Complete the `clawd-saas` Evolution Blueprint (Phase 3-5) with 100% quality and 
 -   **`web_fetch` over `web_search`**.
 -   **Brave Search Free Plan = 1,000 queries/month**.
 -   **`config.patch agents.list` is destructive**.
--   **ITEA-SP uses Gemini 2.5 Flash**.
 -   **Least-loaded tiebreaker must be random**.
 -   **RBAC enforcement pattern**: 179 `requireTenantPermission` calls.
 -   **Workspace paths must use colon format**.
@@ -203,8 +159,6 @@ Complete the `clawd-saas` Evolution Blueprint (Phase 3-5) with 100% quality and 
 -   **`run-claude.sh` saves output to `/tmp/claude-tasks/`**.
 -   **Theme colors + layout both changeable**.
 -   **Avoid Playwright on production server**.
--   **EA Profit System**: per-client customizable thresholds, FIFO profit allocation, committed_capital tracking, old capital upgrade in new cycle, investor password only, Python collector on Windows VPS, trade history collection, report generation planned.
--   **OpenClaw Dashboard**: fork OCD, removed Linear + Temporal, SQLite with WAL mode, `NEXT_PUBLIC_` prefix required for client-side env vars.
 -   **Telegram per-agent bot via `clawd-saas`**.
 -   **Telegram manual-message channel detection**.
 -   **Telegram and WhatsApp feature parity**.
@@ -216,8 +170,6 @@ Complete the `clawd-saas` Evolution Blueprint (Phase 3-5) with 100% quality and 
 -   **`knowledge-synthesized.md` is redundant**.
 -   **`KNOWLEDGE.md` can be deleted if `knowledge-public.md` covers same content**.
 -   **Token usage already tracked in `conversation_messages`**.
--   **1,000 Telegram requests ≈ $6 USD with Gemini Flash**.
--   **Session reset causes appointment creation regression**.
 -   **Retry on empty OpenClaw response**.
 -   **Standalone repo architecture**.
 -   **CSS theme variables**.
@@ -412,24 +364,3 @@ This describes the journey of knowledge from creation in the UI to being underst
     2.  If it reverts, re-apply the changes (using direct JSON edit or `openclaw config set agents.defaults.model.primary ...`) and investigate why it\'s reverting (e.g., permissions, automated config restore).
 -   **PM Agent unresponsive during Compaction**: Normal behavior. Agent is busy processing history.
 
-## 9. Example Agent Context: BeBeauty
-
-This section provides a concrete example of an agent\'s configuration and known issues for reference.
-
--   **Tenant ID**: `d7a2ae1e-d7ad-4c81-8cd4-c4325df4445a`
--   **Agent ID**: `21aef2ce-69ec-4c3e-b473-ae6876c73379`
--   **Agent name**: BEAUTY-SP
--   **OpenClaw agent ID**: `saas-d7a2ae1e-d7ad-4c81-8cd4-c4325df4445a-21aef2ce-69ec-4c3e-b47`
--   **Workspace path**: `/root/.openclaw/workspaces/saas:d7a2ae1e-d7ad-4c81-8cd4-c4325df4445a:21aef2ce-69ec-4c3e-b473-ae6876c73379/`
--   **Telegram bot**: `@bebeauty_cs_bot`
--   **Knowledge categories (Public)**: `037a8299-e8d8-45bb-b00f-31f17b99aff7`
--   **Knowledge content**: 11,257 chars (Be Beauty Asia — salon, PMU studio, academy; KL + JB locations, services like BB Aqua, BB Frax, PMU courses).
--   **Historical Issues (Resolved)**:
-    *   `webhook_enabled = false` on bot connection.
-    *   Knowledge Chat save not syncing to `agents.knowledge_md`.
-    *   LLM returning nested JSON in Knowledge Chat.
-    *   `memory_search` returning empty due to `MEMORY.md` not being written.
-    *   Worker template overriding `AGENTS.md` knowledge instructions.
-    *   Default model incorrectly configured (Claude Opus instead of Gemini Flash).
-
----
